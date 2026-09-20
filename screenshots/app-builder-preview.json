@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Reception · Iqbal & Iqra",
+      "hasCanvas": false,
+      "bodyTextLen": 836,
+      "bodyTextHash": "dd04c924d6c88c1845581cdccc7f0fe9eb6fd58e111979bcee75f1e0cad1ea93",
+      "bodyTextPrefix": "THE RECEPTION PROGRAMME OF- Iqbal & Iqra 03 OCTOBER 2026 بِسْمِ ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Reception · Iqbal & Iqra",
+      "hasCanvas": false,
+      "bodyTextLen": 836,
+      "bodyTextHash": "57b60292f86e020aea0f1d15228513e0527c8240d54cb1fe7ec63ef787f1a4a0",
+      "bodyTextPrefix": "THE RECEPTION PROGRAMME OF- Iqbal & Iqra 03 OCTOBER 2026 بِسْمِ ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

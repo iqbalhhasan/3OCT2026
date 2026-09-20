@@ -1,0 +1,470 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f4ede3;
+  --color-paper-deep: #ebe1d3;
+  --color-ink: #3a2a2c;
+  --color-muted: #7a6560;
+  --color-maroon: #8b3a42;
+  --color-maroon-deep: #6e2c34;
+  --color-blush: #d4a0a0;
+  --color-sage: #7a8b74;
+  --color-gold: #c4a574;
+  --color-ribbon: #f3e6dc;
+
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-script: "Great Vibes", cursive;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "Noto Naskh Arabic", serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+
+  --shadow-card: 0 24px 60px rgba(58, 42, 44, 0.18);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+.invite-stage {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--color-paper);
+  box-shadow: var(--shadow-card);
+  perspective: 1600px;
+}
+
+.invite-stage.is-open {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gatefold {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transition:
+    opacity 0.4s ease,
+    visibility 0s linear 0s;
+}
+
+.gate {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  overflow: hidden;
+  background: var(--color-paper);
+  transition: transform 1.35s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+}
+
+.gate-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.gate-right {
+  right: 0;
+  transform-origin: right center;
+}
+
+.gate img,
+.gate video {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.gate-left img,
+.gate-left video {
+  left: 0;
+}
+
+.gate-right img,
+.gate-right video {
+  right: 0;
+}
+
+.invite-stage.is-opening .gate-left {
+  transform: translateX(-104%) rotateY(-22deg);
+}
+
+.invite-stage.is-opening .gate-right {
+  transform: translateX(104%) rotateY(22deg);
+}
+
+.invite-stage.is-open .gate-left {
+  transform: translateX(-104%) rotateY(-22deg);
+}
+
+.invite-stage.is-open .gate-right {
+  transform: translateX(104%) rotateY(22deg);
+}
+
+.invite-stage.is-open .gatefold {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    visibility 0s linear 0.35s;
+}
+
+.cover-live {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.45s ease;
+}
+
+.invite-stage.is-opening .cover-live,
+.invite-stage.is-open .cover-live {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tap-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(28px + env(safe-area-inset-bottom));
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  color: var(--color-maroon);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: hint-float 2.4s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+
+.invite-stage.is-opening .hint,
+.invite-stage.is-open .hint {
+  opacity: 0;
+}
+
+.hint-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+@keyframes hint-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.petal {
+  position: absolute;
+  top: -24px;
+  width: 12px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 30%, #f3cfc8, #d4a0a0 70%);
+  border-radius: 80% 0 80% 0;
+  opacity: 0.85;
+  pointer-events: none;
+  animation: petal-fall linear infinite;
+  z-index: 35;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.journey-track {
+  position: relative;
+  height: 108px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in oklab, var(--color-gold) 55%, transparent);
+  background: linear-gradient(to bottom, #f7efe4, #efe4d4);
+}
+
+.journey-scroll {
+  position: absolute;
+  inset: 0;
+  width: 200%;
+  animation: journey-pan linear infinite;
+}
+
+.journey-scroll.is-bus {
+  animation-duration: 2.6s;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 18px, #fff 18px 20px),
+    linear-gradient(transparent 78px, color-mix(in oklab, var(--color-ink) 35%, transparent) 78px),
+    repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--color-maroon) 18%, transparent) 0 10px,
+      transparent 10px 28px
+    );
+  background-position:
+    0 84px,
+    0 0,
+    0 62px;
+  background-size:
+    40px 2px,
+    100% 100%,
+    80px 16px;
+  background-repeat: repeat-x;
+}
+
+.journey-scroll.is-train {
+  animation-duration: 3.8s;
+  background:
+    linear-gradient(transparent 82px, #5c4033 82px, #5c4033 86px, transparent 86px),
+    repeating-linear-gradient(90deg, #3e2723 0 5px, transparent 5px 32px);
+  background-position:
+    0 0,
+    0 82px;
+  background-repeat: repeat-x;
+}
+
+.journey-scroll.is-lane {
+  animation-duration: 3s;
+  background:
+    repeating-linear-gradient(90deg, var(--color-gold) 0 16px, transparent 16px 34px),
+    linear-gradient(transparent 80px, color-mix(in oklab, var(--color-ink) 40%, transparent) 80px);
+  background-position:
+    0 86px,
+    0 0;
+  background-repeat: repeat-x;
+}
+
+@keyframes journey-pan {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.journey-vehicle {
+  position: absolute;
+  bottom: 14px;
+  left: 8%;
+  z-index: 2;
+  color: var(--color-maroon);
+  filter: drop-shadow(0 3px 4px rgba(58, 42, 44, 0.2));
+  animation: vehicle-bob 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes vehicle-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+.journey-stops {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.15fr);
+  gap: 0.35rem 0.45rem;
+  align-items: start;
+  border: 1px solid color-mix(in oklab, var(--color-gold) 40%, transparent);
+  background: color-mix(in oklab, var(--color-paper-deep) 50%, transparent);
+  border-radius: 0.375rem;
+  padding: 0.7rem 0.5rem;
+  text-align: left;
+}
+
+.journey-stop {
+  min-width: 0;
+  margin: 0;
+}
+
+.journey-stop-via {
+  text-align: center;
+  padding: 0 0.1rem;
+}
+
+.journey-stop-to {
+  text-align: right;
+}
+
+.journey-stop-label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.journey-stop-name {
+  display: block;
+  font-size: 0.65rem;
+  line-height: 1.2;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.journey-via {
+  font-weight: 600;
+  color: var(--color-maroon);
+}
+
+.ornament-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--color-gold);
+}
+
+.ornament-line::before,
+.ornament-line::after {
+  content: "";
+  height: 1px;
+  width: 52px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.frame-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  background: #f3ece4;
+}
+
+.frame-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  pointer-events: none;
+  user-select: none;
+}
+
+.frame-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 15.6rem;
+  padding: 18rem 2.5rem 11rem;
+  text-align: center;
+}
+
+.letter-end {
+  position: relative;
+  padding: 0.5rem 1.5rem 0;
+  text-align: center;
+}
+
+.letter-end p {
+  position: relative;
+  z-index: 2;
+}
+
+.foot-blossom {
+  display: block;
+  width: 78%;
+  max-width: 18rem;
+  height: auto;
+  margin: 0.85rem auto 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .hint,
+  .petal,
+  .journey-scroll,
+  .journey-vehicle {
+    animation: none;
+  }
+
+  .gate {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .invite-stage.is-opening .gate-left,
+  .invite-stage.is-open .gate-left,
+  .invite-stage.is-opening .gate-right,
+  .invite-stage.is-open .gate-right {
+    transform: none;
+    opacity: 0;
+  }
+}
